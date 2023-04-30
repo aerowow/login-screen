@@ -15,9 +15,28 @@ final class LoginBottomSheetViewController: UIViewController {
     private let scrollContentView = UIView()
     private let consts = Constants()
     
-    private lazy var contentSizeLabel: UILabel = {
+    private lazy var headersStackView: UIStackView = {
+       let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.spacing = consts.headersStackViewConsts.spacing
+        
+        return stackView
+    }()
+    
+    private lazy var loginLabel: UILabel = {
         let label = UILabel()
-        label.textAlignment = .center
+        label.text = consts.loginLabel.text
+        label.textColor = consts.loginLabel.textColor
+        label.font = consts.loginLabel.font
+        
+        return label
+    }()
+    
+    private lazy var subtitleLabel: UILabel = {
+       let label = UILabel()
+        label.text = consts.subtitleLabel.text
+        label.textColor = consts.subtitleLabel.textColor
+        label.font = consts.subtitleLabel.font
         
         return label
     }()
@@ -71,8 +90,11 @@ final class LoginBottomSheetViewController: UIViewController {
     private func addSubviews() {
         view.addSubview(scrollView)
         scrollView.addSubview(scrollContentView)
-        scrollContentView.addSubview(contentSizeLabel)
         scrollContentView.addSubview(loginButton)
+        scrollContentView.addSubview(headersStackView)
+        
+        headersStackView.addArrangedSubview(loginLabel)
+        headersStackView.addArrangedSubview(subtitleLabel)
     }
     
     private func setupConstraints() {
@@ -85,8 +107,10 @@ final class LoginBottomSheetViewController: UIViewController {
             $0.edges.width.height.equalTo(scrollView)
         }
         
-        contentSizeLabel.snp.makeConstraints {
-            $0.leading.top.trailing.equalTo(scrollContentView)
+        headersStackView.snp.makeConstraints {
+            $0.top.equalTo(scrollContentView).inset(50)
+            $0.leading.trailing.equalTo(scrollContentView).inset(32)
+            
         }
         
         loginButton.snp.makeConstraints {
@@ -100,16 +124,14 @@ final class LoginBottomSheetViewController: UIViewController {
             width: UIScreen.main.bounds.width,
             height: currentHeight
         )
-        contentSizeLabel.text = "preferredContentHeight = \(currentHeight)"
         preferredContentSize = scrollView.contentSize
     }
     
     private func updateContentHeight(newValue: CGFloat) {
         guard newValue >= 200 && newValue < 5000 else { return }
         
-        contentSizeLabel.text = "preferredContentHeight = \(newValue)"
         currentHeight = newValue
-        
+
         let updates = { [self] in
             scrollContentView.snp.updateConstraints {
                 $0.height.equalTo(newValue)
@@ -136,6 +158,9 @@ final class LoginBottomSheetViewController: UIViewController {
 extension LoginBottomSheetViewController {
     struct Constants {
         let loginButton = LoginButtonConsts()
+        let headersStackViewConsts = HeadersStackViewConsts()
+        let loginLabel = LoginLabelConsts()
+        let subtitleLabel = SubtitleLabelConsts()
         
         let backgroundColor: UIColor = .systemBackground
         
@@ -145,6 +170,22 @@ extension LoginBottomSheetViewController {
             let fontKarlaBold = UIFont(name: "Karla-Bold", size: 16)
             let fontKarlaExtraBold = UIFont(name: "Karla-ExtraBold", size: 16)
             let height: CGFloat = 75.0
+        }
+        
+        struct HeadersStackViewConsts {
+            let spacing: CGFloat = 8
+        }
+        
+        struct LoginLabelConsts {
+            let text = "Login"
+            let textColor: UIColor = .label
+            let font = UIFont(name: "PlayfairDisplay-Bold", size: 24)
+        }
+        
+        struct SubtitleLabelConsts {
+            let text = "Sign to your account"
+            let textColor: UIColor = .systemGray
+            let font = UIFont(name: "Karla-Regular", size: 16)
         }
     }
 }
