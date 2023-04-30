@@ -11,7 +11,15 @@ import SnapKit
 final class LoginBottomSheetViewController: UIViewController {
     // MARK: - Subviews
     
+    private let contentSizeLabel: UILabel = {
+        let label = UILabel()
+        label.textAlignment = .center
+        
+        return label
+    }()
+    
     private let scrollView = UIScrollView()
+    private let scrollContentView = UIView()
     
     private var currentHeight: CGFloat {
         didSet {
@@ -35,6 +43,7 @@ final class LoginBottomSheetViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        view.backgroundColor = .white
         addSubviews()
         setupConstraints()
         updatePreferredContentSize()
@@ -60,4 +69,26 @@ final class LoginBottomSheetViewController: UIViewController {
         scrollView.alwaysBounceVertical = true
     }
     
+    private func updateContentHeight(newValue: CGFloat) {
+        guard newValue >= 200 && newValue < 5000 else { return }
+        
+        contentSizeLabel.text = "preferredContentHeight = \(newValue)"
+        currentHeight = newValue
+        
+        let updates = { [self] in
+            scrollContentView.snp.updateConstraints {
+                $0.height.equalTo(newValue)
+            }
+            preferredContentSize = CGSize(
+                width: UIScreen.main.bounds.width,
+                height: newValue
+            )
+        }
+        let canAnimateChanges = viewIfLoaded?.window != nil
+        if canAnimateChanges {
+            UIView.animate(withDuration: 0.25, animations: updates)
+        } else {
+            updates()
+        }
+    }
 }
