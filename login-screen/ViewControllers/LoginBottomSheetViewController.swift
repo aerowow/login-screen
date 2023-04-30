@@ -11,15 +11,31 @@ import SnapKit
 final class LoginBottomSheetViewController: UIViewController {
     // MARK: - Subviews
     
-    private let contentSizeLabel: UILabel = {
+    private let scrollView = UIScrollView()
+    private let scrollContentView = UIView()
+    private let consts = Constants()
+    
+    private lazy var contentSizeLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
         
         return label
     }()
     
-    private let scrollView = UIScrollView()
-    private let scrollContentView = UIView()
+    private lazy var loginButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.backgroundColor = consts.loginButton.backgroundColor
+        button.titleLabel?.font = consts.loginButton.fontKarlaBold
+        button.setTitle(consts.loginButton.text, for: .normal)
+        button.setTitleColor(.white, for: .normal)
+        button.addTarget(
+            self,
+            action: #selector(loginToAccount),
+            for: .touchUpInside
+        )
+        
+        return button
+    }()
     
     private var currentHeight: CGFloat {
         didSet {
@@ -28,6 +44,7 @@ final class LoginBottomSheetViewController: UIViewController {
     }
     
     // MARK: - Init
+    
     init(initialHeight: CGFloat) {
         self.currentHeight = initialHeight
         super.init(nibName: nil, bundle: nil)
@@ -43,30 +60,48 @@ final class LoginBottomSheetViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .white
+        view.backgroundColor = consts.backgroundColor
         addSubviews()
         setupConstraints()
         updatePreferredContentSize()
     }
     
     // MARK: - Methods
-    private func updatePreferredContentSize() {
-        scrollView.contentSize = CGSize(width: UIScreen.main.bounds.width,
-            height: currentHeight)
-        preferredContentSize = scrollView.contentSize
-    }
     
     private func addSubviews() {
         view.addSubview(scrollView)
+        scrollView.addSubview(scrollContentView)
+        scrollContentView.addSubview(contentSizeLabel)
+        scrollContentView.addSubview(loginButton)
     }
     
     private func setupConstraints() {
-        let guide = view.safeAreaLayoutGuide
-        
         scrollView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
         scrollView.alwaysBounceVertical = true
+        
+        scrollContentView.snp.makeConstraints {
+            $0.edges.width.height.equalTo(scrollView)
+        }
+        
+        contentSizeLabel.snp.makeConstraints {
+            $0.leading.top.trailing.equalTo(scrollContentView)
+        }
+        
+        loginButton.snp.makeConstraints {
+            $0.leading.trailing.bottom.equalTo(scrollContentView)
+            $0.height.equalTo(consts.loginButton.height)
+        }
+    }
+    
+    private func updatePreferredContentSize() {
+        scrollView.contentSize = CGSize(
+            width: UIScreen.main.bounds.width,
+            height: currentHeight
+        )
+        contentSizeLabel.text = "preferredContentHeight = \(currentHeight)"
+        preferredContentSize = scrollView.contentSize
     }
     
     private func updateContentHeight(newValue: CGFloat) {
@@ -89,6 +124,27 @@ final class LoginBottomSheetViewController: UIViewController {
             UIView.animate(withDuration: 0.25, animations: updates)
         } else {
             updates()
+        }
+    }
+    
+    @objc
+    private func loginToAccount() {
+        
+    }
+}
+
+extension LoginBottomSheetViewController {
+    struct Constants {
+        let loginButton = LoginButtonConsts()
+        
+        let backgroundColor: UIColor = .systemBackground
+        
+        struct LoginButtonConsts {
+            let backgroundColor = UIColor(red: 0.098, green: 0.647, blue: 0.29, alpha: 1)
+            let text = "Login"
+            let fontKarlaBold = UIFont(name: "Karla-Bold", size: 16)
+            let fontKarlaExtraBold = UIFont(name: "Karla-ExtraBold", size: 16)
+            let height: CGFloat = 75.0
         }
     }
 }

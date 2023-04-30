@@ -38,7 +38,11 @@ final class LoginViewController: UIViewController {
         button.titleLabel?.font = consts.signbutton.fontKarlaBold
         button.setTitle(consts.signbutton.text, for: .normal)
         button.setTitleColor(.label, for: .normal)
-        button.addTarget(self, action: #selector(handleShowBottomSheet), for: .touchUpInside)
+        button.addTarget(
+            self,
+            action: #selector(handleShowBottomSheet),
+            for: .touchUpInside
+        )
         
         return button
     }()
@@ -58,7 +62,10 @@ final class LoginViewController: UIViewController {
     @objc
     func handleShowBottomSheet() {
         print("kek")
-        presentBottomSheet(viewController: LoginBottomSheetViewController(initialHeight: 600), configuration: .default)
+        presentBottomSheet(
+            viewController: LoginBottomSheetViewController(initialHeight: 600),
+            configuration: .default
+        )
     }
     
     private func addSubviews() {
