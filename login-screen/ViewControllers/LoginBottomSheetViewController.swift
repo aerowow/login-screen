@@ -41,6 +41,86 @@ final class LoginBottomSheetViewController: UIViewController {
         return label
     }()
     
+    private lazy var infoFieldsStackView: UIStackView = {
+       let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.spacing = 30
+        
+        return stackView
+    }()
+    
+    private lazy var nameStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.spacing = 10
+        
+        return stackView
+    }()
+    
+    private lazy var nameLabel: UILabel = {
+       let label = UILabel()
+        label.text = consts.emailLabel.text
+        label.textColor = consts.infoLabel.color
+        label.font = consts.infoLabel.font
+        
+        return label
+    }()
+    
+    private lazy var nameTextField: UITextField = {
+       let txtField = UITextField()
+        txtField.backgroundColor = UIColor(red: 0.975, green: 0.98, blue: 0.985, alpha: 1)
+        
+        return txtField
+    }()
+    
+    private lazy var emailStackView: UIStackView = {
+       let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.spacing = 10
+        
+        return stackView
+    }()
+    
+    private lazy var emailLabel: UILabel = {
+       let label = UILabel()
+        label.text = consts.emailLabel.text
+        label.textColor = consts.infoLabel.color
+        label.font = consts.infoLabel.font
+        
+        return label
+    }()
+    
+    private lazy var emailTextField: UITextField = {
+       let txtField = UITextField()
+        txtField.backgroundColor = UIColor(red: 0.975, green: 0.98, blue: 0.985, alpha: 1)
+        
+        return txtField
+    }()
+    
+    private lazy var passwordStackView: UIStackView = {
+       let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.spacing = 10
+        
+        return stackView
+    }()
+    
+    private lazy var passwordLabel: UILabel = {
+       let label = UILabel()
+        label.text = consts.passwordLabel.text
+        label.textColor = consts.infoLabel.color
+        label.font = consts.infoLabel.font
+        
+        return label
+    }()
+    
+    private lazy var passwordTextField: UITextField = {
+       let txtField = UITextField()
+        txtField.backgroundColor = UIColor(red: 0.975, green: 0.98, blue: 0.985, alpha: 1)
+        
+        return txtField
+    }()
+    
     private lazy var loginButton: UIButton = {
         let button = UIButton(type: .system)
         button.backgroundColor = consts.loginButton.backgroundColor
@@ -56,6 +136,7 @@ final class LoginBottomSheetViewController: UIViewController {
         return button
     }()
     
+    // MARK: - Properties
     private var currentHeight: CGFloat {
         didSet {
             updatePreferredContentSize()
@@ -92,9 +173,19 @@ final class LoginBottomSheetViewController: UIViewController {
         scrollView.addSubview(scrollContentView)
         scrollContentView.addSubview(loginButton)
         scrollContentView.addSubview(headersStackView)
+        scrollContentView.addSubview(infoFieldsStackView)
+    
+        infoFieldsStackView.addArrangedSubview(nameStackView)
+        infoFieldsStackView.addArrangedSubview(emailStackView)
+        infoFieldsStackView.addArrangedSubview(passwordStackView)
         
         headersStackView.addArrangedSubview(loginLabel)
         headersStackView.addArrangedSubview(subtitleLabel)
+        
+        emailStackView.addArrangedSubview(emailLabel)
+        emailStackView.addArrangedSubview(emailTextField)
+        
+        
     }
     
     private func setupConstraints() {
@@ -110,7 +201,15 @@ final class LoginBottomSheetViewController: UIViewController {
         headersStackView.snp.makeConstraints {
             $0.top.equalTo(scrollContentView).inset(50)
             $0.leading.trailing.equalTo(scrollContentView).inset(32)
-            
+        }
+        
+        emailTextField.snp.makeConstraints {
+            $0.height.equalTo(50)
+        }
+        
+        infoFieldsStackView.snp.makeConstraints {
+            $0.top.equalTo(headersStackView.snp.bottom).inset(-60)
+            $0.trailing.leading.equalTo(scrollContentView).inset(32)
         }
         
         loginButton.snp.makeConstraints {
@@ -161,6 +260,11 @@ extension LoginBottomSheetViewController {
         let headersStackViewConsts = HeadersStackViewConsts()
         let loginLabel = LoginLabelConsts()
         let subtitleLabel = SubtitleLabelConsts()
+        let nameLabel = NameLabelConsts()
+        let emailLabel = EmailLabelConsts()
+        let passwordLabel = PasswordLabelConsts()
+        let infoLabel = InfoLabelConsts()
+        
         
         let backgroundColor: UIColor = .systemBackground
         
@@ -186,6 +290,23 @@ extension LoginBottomSheetViewController {
             let text = "Sign to your account"
             let textColor: UIColor = .systemGray
             let font = UIFont(name: "Karla-Regular", size: 16)
+        }
+        
+        struct InfoLabelConsts {
+            let color: UIColor = .systemGray2
+            let font = UIFont(name: "Karla-Regular", size: 14)
+        }
+        
+        struct NameLabelConsts {
+            let text = "YOUR NAME"
+        }
+        
+        struct EmailLabelConsts {
+            let text = "YOUR EMAIL"
+        }
+        
+        struct PasswordLabelConsts {
+            let text = "PASSWORD"
         }
     }
 }
