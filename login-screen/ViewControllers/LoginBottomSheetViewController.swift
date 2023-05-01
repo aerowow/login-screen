@@ -69,6 +69,7 @@ final class LoginBottomSheetViewController: UIViewController {
     private lazy var nameTextField: UITextField = {
        let txtField = UITextField()
         txtField.backgroundColor = UIColor(red: 0.975, green: 0.98, blue: 0.985, alpha: 1)
+        txtField.addLeftPadding(20)
         
         return txtField
     }()
@@ -93,6 +94,7 @@ final class LoginBottomSheetViewController: UIViewController {
     private lazy var emailTextField: UITextField = {
        let txtField = UITextField()
         txtField.backgroundColor = UIColor(red: 0.975, green: 0.98, blue: 0.985, alpha: 1)
+        txtField.addLeftPadding(20)
         
         return txtField
     }()
@@ -117,6 +119,7 @@ final class LoginBottomSheetViewController: UIViewController {
     private lazy var passwordTextField: UITextField = {
        let txtField = UITextField()
         txtField.backgroundColor = UIColor(red: 0.975, green: 0.98, blue: 0.985, alpha: 1)
+        txtField.addLeftPadding(20)
         
         return txtField
     }()
@@ -182,10 +185,14 @@ final class LoginBottomSheetViewController: UIViewController {
         headersStackView.addArrangedSubview(loginLabel)
         headersStackView.addArrangedSubview(subtitleLabel)
         
+        nameStackView.addArrangedSubview(nameLabel)
+        nameStackView.addArrangedSubview(nameTextField)
+        
         emailStackView.addArrangedSubview(emailLabel)
         emailStackView.addArrangedSubview(emailTextField)
         
-        
+        passwordStackView.addArrangedSubview(passwordLabel)
+        passwordStackView.addArrangedSubview(passwordTextField)
     }
     
     private func setupConstraints() {
@@ -203,9 +210,9 @@ final class LoginBottomSheetViewController: UIViewController {
             $0.leading.trailing.equalTo(scrollContentView).inset(32)
         }
         
-        emailTextField.snp.makeConstraints {
-            $0.height.equalTo(50)
-        }
+        nameTextField.setHeight(50)
+        emailTextField.setHeight(50)
+        passwordTextField.setHeight(50)
         
         infoFieldsStackView.snp.makeConstraints {
             $0.top.equalTo(headersStackView.snp.bottom).inset(-60)
@@ -254,6 +261,7 @@ final class LoginBottomSheetViewController: UIViewController {
     }
 }
 
+// MARK: - Constants extension
 extension LoginBottomSheetViewController {
     struct Constants {
         let loginButton = LoginButtonConsts()
@@ -294,7 +302,7 @@ extension LoginBottomSheetViewController {
         
         struct InfoLabelConsts {
             let color: UIColor = .systemGray2
-            let font = UIFont(name: "Karla-Regular", size: 14)
+            let font = UIFont(name: "Karla-Regular", size: 14) ?? .systemFont(ofSize: 14)
         }
         
         struct NameLabelConsts {
@@ -307,6 +315,20 @@ extension LoginBottomSheetViewController {
         
         struct PasswordLabelConsts {
             let text = "PASSWORD"
+        }
+    }
+}
+
+extension UITextField {
+    func addLeftPadding(_ padding: CGFloat) {
+        let leftPaddingView = UIView(frame: CGRect(x: 0, y: 0, width: padding, height: self.frame.height))
+        self.leftView = leftPaddingView
+        self.leftViewMode = .always
+    }
+    
+    func setHeight(_ height: CGFloat) {
+        self.snp.makeConstraints {
+            $0.height.equalTo(height)
         }
     }
 }
