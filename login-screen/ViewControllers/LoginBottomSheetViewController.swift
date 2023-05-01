@@ -212,6 +212,7 @@ final class LoginBottomSheetViewController: UIViewController {
         addSubviews()
         setupConstraints()
         updatePreferredContentSize()
+        setupGestureRecognizer()
     }
     
     // MARK: - Methods
@@ -297,7 +298,7 @@ final class LoginBottomSheetViewController: UIViewController {
     @objc
     private func showHint() {
         let alert = UIAlertController()
-        
+        print("kek")
     }
     
     @objc
@@ -332,8 +333,16 @@ final class LoginBottomSheetViewController: UIViewController {
                 self.forgotPasswordButton.isHidden = false
             }
         }
-        
-        
+    }
+    
+    @objc
+    private func dismissKeyboard() {
+        scrollView.endEditing(true)
+    }
+    
+    private func setupGestureRecognizer() {
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        scrollContentView.addGestureRecognizer(tapGestureRecognizer)
     }
     
     private func updatePreferredContentSize() {
