@@ -59,7 +59,7 @@ final class LoginBottomSheetViewController: UIViewController {
     
     private lazy var nameLabel: UILabel = {
        let label = UILabel()
-        label.text = consts.emailLabel.text
+        label.text = consts.nameLabel.text
         label.textColor = consts.infoLabel.color
         label.font = consts.infoLabel.font
         
@@ -124,6 +124,36 @@ final class LoginBottomSheetViewController: UIViewController {
         return txtField
     }()
     
+    private lazy var forgotPasswordButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.backgroundColor = .systemBackground
+        button.titleLabel?.font = consts.secondaryButtons.font
+        button.setTitle(consts.secondaryButtons.forgotPassLabel, for: .normal)
+        button.setTitleColor(.label, for: .normal)
+        button.addTarget(
+            self,
+            action: #selector(showHint),
+            for: .touchUpInside
+        )
+        
+        return button
+    }()
+    
+    private lazy var dontHaveAccountButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.backgroundColor = .systemBackground
+        button.titleLabel?.font = consts.secondaryButtons.font
+        button.setTitle(consts.secondaryButtons.dontHaveAccLabel, for: .normal)
+        button.setTitleColor(.label, for: .normal)
+        button.addTarget(
+            self,
+            action: #selector(registerAccount),
+            for: .touchUpInside
+        )
+        
+        return button
+    }()
+    
     private lazy var loginButton: UIButton = {
         let button = UIButton(type: .system)
         button.backgroundColor = consts.loginButton.backgroundColor
@@ -174,16 +204,18 @@ final class LoginBottomSheetViewController: UIViewController {
     private func addSubviews() {
         view.addSubview(scrollView)
         scrollView.addSubview(scrollContentView)
-        scrollContentView.addSubview(loginButton)
         scrollContentView.addSubview(headersStackView)
         scrollContentView.addSubview(infoFieldsStackView)
+        scrollContentView.addSubview(forgotPasswordButton)
+        scrollContentView.addSubview(dontHaveAccountButton)
+        scrollContentView.addSubview(loginButton)
+        
+        headersStackView.addArrangedSubview(loginLabel)
+        headersStackView.addArrangedSubview(subtitleLabel)
     
         infoFieldsStackView.addArrangedSubview(nameStackView)
         infoFieldsStackView.addArrangedSubview(emailStackView)
         infoFieldsStackView.addArrangedSubview(passwordStackView)
-        
-        headersStackView.addArrangedSubview(loginLabel)
-        headersStackView.addArrangedSubview(subtitleLabel)
         
         nameStackView.addArrangedSubview(nameLabel)
         nameStackView.addArrangedSubview(nameTextField)
@@ -219,10 +251,36 @@ final class LoginBottomSheetViewController: UIViewController {
             $0.trailing.leading.equalTo(scrollContentView).inset(32)
         }
         
+        forgotPasswordButton.snp.makeConstraints {
+            $0.top.equalTo(infoFieldsStackView.snp.bottom).inset(-30)
+            $0.leading.equalTo(scrollContentView).inset(30)
+        }
+        
+        dontHaveAccountButton.snp.makeConstraints {
+            $0.bottom.equalTo(loginButton.snp.top).inset(-30)
+            $0.centerX.equalToSuperview()
+        }
+        
         loginButton.snp.makeConstraints {
             $0.leading.trailing.bottom.equalTo(scrollContentView)
             $0.height.equalTo(consts.loginButton.height)
         }
+    }
+    
+    @objc
+    private func loginToAccount() {
+        
+    }
+    
+    @objc
+    private func showHint() {
+        let alert = UIAlertController()
+        
+    }
+    
+    @objc
+    private func registerAccount() {
+        
     }
     
     private func updatePreferredContentSize() {
@@ -254,11 +312,6 @@ final class LoginBottomSheetViewController: UIViewController {
             updates()
         }
     }
-    
-    @objc
-    private func loginToAccount() {
-        
-    }
 }
 
 // MARK: - Constants extension
@@ -272,6 +325,7 @@ extension LoginBottomSheetViewController {
         let emailLabel = EmailLabelConsts()
         let passwordLabel = PasswordLabelConsts()
         let infoLabel = InfoLabelConsts()
+        let secondaryButtons = SecondaryButtons()
         
         
         let backgroundColor: UIColor = .systemBackground
@@ -302,7 +356,10 @@ extension LoginBottomSheetViewController {
         
         struct InfoLabelConsts {
             let color: UIColor = .systemGray2
-            let font = UIFont(name: "Karla-Regular", size: 14) ?? .systemFont(ofSize: 14)
+            let font = UIFont(
+                name: "Karla-Regular",
+                size: 14
+            ) ?? .systemFont(ofSize: 14)
         }
         
         struct NameLabelConsts {
@@ -315,6 +372,15 @@ extension LoginBottomSheetViewController {
         
         struct PasswordLabelConsts {
             let text = "PASSWORD"
+        }
+        
+        struct SecondaryButtons {
+            let forgotPassLabel = "Forgot Password?"
+            let dontHaveAccLabel = "I don’t have account"
+            let font = UIFont(
+                name: "Karla-Bold",
+                size: 16
+            ) ?? .systemFont(ofSize: 16)
         }
     }
 }
