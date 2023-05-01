@@ -9,7 +9,7 @@ import UIKit
 import BottomSheet
 
 final class LoginViewController: UIViewController {
-    // MARK: - Properties
+    // MARK: - Subviews
     
     private let consts = Constants()
     
@@ -63,7 +63,7 @@ final class LoginViewController: UIViewController {
     func handleShowBottomSheet() {
         print("kek")
         presentBottomSheet(
-            viewController: LoginBottomSheetViewController(initialHeight: 600),
+            viewController: LoginBottomSheetViewController(initialHeight: 650),
             configuration: .default
         )
     }

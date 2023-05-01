@@ -11,9 +11,9 @@ import SnapKit
 final class LoginBottomSheetViewController: UIViewController {
     // MARK: - Subviews
     
+    private let consts = Constants()
     private let scrollView = UIScrollView()
     private let scrollContentView = UIView()
-    private let consts = Constants()
     
     private lazy var headersStackView: UIStackView = {
        let stackView = UIStackView()
@@ -44,7 +44,7 @@ final class LoginBottomSheetViewController: UIViewController {
     private lazy var infoFieldsStackView: UIStackView = {
        let stackView = UIStackView()
         stackView.axis = .vertical
-        stackView.spacing = 30
+        stackView.spacing = consts.infoConsts.commonSpacing
         
         return stackView
     }()
@@ -52,7 +52,7 @@ final class LoginBottomSheetViewController: UIViewController {
     private lazy var nameStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
-        stackView.spacing = 10
+        stackView.spacing = consts.infoConsts.spacingBetweenSubStackviews
         
         return stackView
     }()
@@ -60,16 +60,16 @@ final class LoginBottomSheetViewController: UIViewController {
     private lazy var nameLabel: UILabel = {
        let label = UILabel()
         label.text = consts.nameLabel.text
-        label.textColor = consts.infoLabel.color
-        label.font = consts.infoLabel.font
+        label.textColor = consts.infoConsts.color
+        label.font = consts.infoConsts.font
         
         return label
     }()
     
     private lazy var nameTextField: UITextField = {
        let txtField = UITextField()
-        txtField.backgroundColor = UIColor(red: 0.975, green: 0.98, blue: 0.985, alpha: 1)
-        txtField.addLeftPadding(20)
+        txtField.backgroundColor = consts.infoConsts.textFieldBackgroundColor
+        txtField.addLeftPadding(consts.infoConsts.textFieldPadding)
         
         return txtField
     }()
@@ -77,7 +77,7 @@ final class LoginBottomSheetViewController: UIViewController {
     private lazy var emailStackView: UIStackView = {
        let stackView = UIStackView()
         stackView.axis = .vertical
-        stackView.spacing = 10
+        stackView.spacing = consts.infoConsts.spacingBetweenSubStackviews
         
         return stackView
     }()
@@ -85,16 +85,20 @@ final class LoginBottomSheetViewController: UIViewController {
     private lazy var emailLabel: UILabel = {
        let label = UILabel()
         label.text = consts.emailLabel.text
-        label.textColor = consts.infoLabel.color
-        label.font = consts.infoLabel.font
+        label.textColor = consts.infoConsts.color
+        label.font = consts.infoConsts.font
         
         return label
     }()
     
     private lazy var emailTextField: UITextField = {
        let txtField = UITextField()
-        txtField.backgroundColor = UIColor(red: 0.975, green: 0.98, blue: 0.985, alpha: 1)
-        txtField.addLeftPadding(20)
+        txtField.backgroundColor = consts.infoConsts.textFieldBackgroundColor
+        txtField.addLeftPadding(consts.infoConsts.textFieldPadding)
+        txtField.keyboardType = .emailAddress
+        txtField.autocorrectionType = .no
+        txtField.autocapitalizationType = .none
+        txtField.clearButtonMode = .whileEditing
         
         return txtField
     }()
@@ -102,7 +106,7 @@ final class LoginBottomSheetViewController: UIViewController {
     private lazy var passwordStackView: UIStackView = {
        let stackView = UIStackView()
         stackView.axis = .vertical
-        stackView.spacing = 10
+        stackView.spacing = consts.infoConsts.spacingBetweenSubStackviews
         
         return stackView
     }()
@@ -110,16 +114,19 @@ final class LoginBottomSheetViewController: UIViewController {
     private lazy var passwordLabel: UILabel = {
        let label = UILabel()
         label.text = consts.passwordLabel.text
-        label.textColor = consts.infoLabel.color
-        label.font = consts.infoLabel.font
+        label.textColor = consts.infoConsts.color
+        label.font = consts.infoConsts.font
         
         return label
     }()
     
     private lazy var passwordTextField: UITextField = {
        let txtField = UITextField()
-        txtField.backgroundColor = UIColor(red: 0.975, green: 0.98, blue: 0.985, alpha: 1)
-        txtField.addLeftPadding(20)
+        txtField.backgroundColor = consts.infoConsts.textFieldBackgroundColor
+        txtField.addLeftPadding(consts.infoConsts.textFieldPadding)
+        txtField.isSecureTextEntry = true
+        txtField.autocapitalizationType = .none
+        txtField.clearButtonMode = .whileEditing
         
         return txtField
     }()
@@ -194,6 +201,9 @@ final class LoginBottomSheetViewController: UIViewController {
         super.viewDidLoad()
         
         view.backgroundColor = consts.backgroundColor
+        
+        nameStackView.isHidden = true
+        
         addSubviews()
         setupConstraints()
         updatePreferredContentSize()
@@ -280,7 +290,10 @@ final class LoginBottomSheetViewController: UIViewController {
     
     @objc
     private func registerAccount() {
-        
+        UIView.animate(withDuration: 0.35) {
+            self.nameStackView.isHidden = false
+            self.forgotPasswordButton.isHidden = true
+        }
     }
     
     private func updatePreferredContentSize() {
@@ -307,7 +320,7 @@ final class LoginBottomSheetViewController: UIViewController {
         }
         let canAnimateChanges = viewIfLoaded?.window != nil
         if canAnimateChanges {
-            UIView.animate(withDuration: 0.25, animations: updates)
+            UIView.animate(withDuration: 0.35, animations: updates)
         } else {
             updates()
         }
@@ -324,19 +337,11 @@ extension LoginBottomSheetViewController {
         let nameLabel = NameLabelConsts()
         let emailLabel = EmailLabelConsts()
         let passwordLabel = PasswordLabelConsts()
-        let infoLabel = InfoLabelConsts()
+        let infoConsts = InfoConsts()
         let secondaryButtons = SecondaryButtons()
         
         
         let backgroundColor: UIColor = .systemBackground
-        
-        struct LoginButtonConsts {
-            let backgroundColor = UIColor(red: 0.098, green: 0.647, blue: 0.29, alpha: 1)
-            let text = "Login"
-            let fontKarlaBold = UIFont(name: "Karla-Bold", size: 16)
-            let fontKarlaExtraBold = UIFont(name: "Karla-ExtraBold", size: 16)
-            let height: CGFloat = 75.0
-        }
         
         struct HeadersStackViewConsts {
             let spacing: CGFloat = 8
@@ -354,7 +359,17 @@ extension LoginBottomSheetViewController {
             let font = UIFont(name: "Karla-Regular", size: 16)
         }
         
-        struct InfoLabelConsts {
+        struct InfoConsts {
+            let textFieldBackgroundColor = UIColor(
+                red: 0.975,
+                green: 0.98,
+                blue: 0.985,
+                alpha: 1
+            )
+            let textFieldPadding: CGFloat = 20
+            
+            let commonSpacing: CGFloat = 30
+            let spacingBetweenSubStackviews: CGFloat = 10
             let color: UIColor = .systemGray2
             let font = UIFont(
                 name: "Karla-Regular",
@@ -382,9 +397,23 @@ extension LoginBottomSheetViewController {
                 size: 16
             ) ?? .systemFont(ofSize: 16)
         }
+        
+        struct LoginButtonConsts {
+            let backgroundColor = UIColor(
+                red: 0.098,
+                green: 0.647,
+                blue: 0.29,
+                alpha: 1
+            )
+            let text = "Login"
+            let fontKarlaBold = UIFont(name: "Karla-Bold", size: 16)
+            let fontKarlaExtraBold = UIFont(name: "Karla-ExtraBold", size: 16)
+            let height: CGFloat = 75.0
+        }
     }
 }
 
+// MARK: - UITextField extension
 extension UITextField {
     func addLeftPadding(_ padding: CGFloat) {
         let leftPaddingView = UIView(frame: CGRect(x: 0, y: 0, width: padding, height: self.frame.height))
