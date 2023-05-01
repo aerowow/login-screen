@@ -15,6 +15,8 @@ final class LoginBottomSheetViewController: UIViewController {
     private let scrollView = UIScrollView()
     private let scrollContentView = UIView()
     
+    private var hasAccount = true
+    
     private lazy var headersStackView: UIStackView = {
        let stackView = UIStackView()
         stackView.axis = .vertical
@@ -300,10 +302,38 @@ final class LoginBottomSheetViewController: UIViewController {
     
     @objc
     private func registerAccount() {
-        UIView.animate(withDuration: 0.35) {
-            self.nameStackView.isHidden = false
-            self.forgotPasswordButton.isHidden = true
+        hasAccount.toggle()
+        
+        if !hasAccount {
+            UIView.animate(withDuration: 0.35) {
+                self.loginLabel.text = "Register"
+                self.subtitleLabel.text = "Create your account"
+                self.dontHaveAccountButton.setTitle(
+                    "I have an account",
+                    for: .normal
+                )
+                self.loginButton.setTitle("Register", for: .normal)
+                self.nameStackView.isHidden = false
+                self.forgotPasswordButton.isHidden = true
+            }
+        } else {
+            UIView.animate(withDuration: 0.35) {
+                self.loginLabel.text = "Login"
+                self.subtitleLabel.text = "Sign to your account"
+                self.loginButton.setTitle(
+                    self.consts.loginButton.text,
+                    for: .normal
+                )
+                self.dontHaveAccountButton.setTitle(
+                    self.consts.secondaryButtons.dontHaveAccLabel,
+                    for: .normal
+                )
+                self.nameStackView.isHidden = true
+                self.forgotPasswordButton.isHidden = false
+            }
         }
+        
+        
     }
     
     private func updatePreferredContentSize() {

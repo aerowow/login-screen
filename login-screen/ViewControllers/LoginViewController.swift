@@ -61,7 +61,6 @@ final class LoginViewController: UIViewController {
     
     @objc
     func handleShowBottomSheet() {
-        print("kek")
         presentBottomSheet(
             viewController: LoginBottomSheetViewController(initialHeight: 650),
             configuration: .default
