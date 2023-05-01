@@ -70,6 +70,7 @@ final class LoginBottomSheetViewController: UIViewController {
        let txtField = UITextField()
         txtField.backgroundColor = consts.infoConsts.textFieldBackgroundColor
         txtField.addLeftPadding(consts.infoConsts.textFieldPadding)
+        txtField.textColor = .label
         
         return txtField
     }()
@@ -95,6 +96,7 @@ final class LoginBottomSheetViewController: UIViewController {
        let txtField = UITextField()
         txtField.backgroundColor = consts.infoConsts.textFieldBackgroundColor
         txtField.addLeftPadding(consts.infoConsts.textFieldPadding)
+        txtField.textColor = .label
         txtField.keyboardType = .emailAddress
         txtField.autocorrectionType = .no
         txtField.autocapitalizationType = .none
@@ -124,6 +126,7 @@ final class LoginBottomSheetViewController: UIViewController {
        let txtField = UITextField()
         txtField.backgroundColor = consts.infoConsts.textFieldBackgroundColor
         txtField.addLeftPadding(consts.infoConsts.textFieldPadding)
+        txtField.textColor = .label
         txtField.isSecureTextEntry = true
         txtField.autocapitalizationType = .none
         txtField.clearButtonMode = .whileEditing
@@ -238,6 +241,11 @@ final class LoginBottomSheetViewController: UIViewController {
     }
     
     private func setupConstraints() {
+        let headersInsets = consts.headersStackViewConsts.insets
+        let infoFieldsInsets = consts.infoConsts.insets
+        let secondaryButtonsInsets = consts.secondaryButtons.secondaryButtonsInsets
+        
+        
         scrollView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
@@ -248,26 +256,28 @@ final class LoginBottomSheetViewController: UIViewController {
         }
         
         headersStackView.snp.makeConstraints {
-            $0.top.equalTo(scrollContentView).inset(50)
-            $0.leading.trailing.equalTo(scrollContentView).inset(32)
+            $0.top.equalTo(scrollContentView).inset(headersInsets.top)
+            $0.leading.equalTo(scrollContentView).inset(headersInsets.left)
+            $0.trailing.equalTo(scrollContentView).inset(headersInsets.right)
         }
         
-        nameTextField.setHeight(50)
-        emailTextField.setHeight(50)
-        passwordTextField.setHeight(50)
+        nameTextField.setHeight(consts.infoConsts.textFieldHeight)
+        emailTextField.setHeight(consts.infoConsts.textFieldHeight)
+        passwordTextField.setHeight(consts.infoConsts.textFieldHeight)
         
         infoFieldsStackView.snp.makeConstraints {
-            $0.top.equalTo(headersStackView.snp.bottom).inset(-60)
-            $0.trailing.leading.equalTo(scrollContentView).inset(32)
+            $0.top.equalTo(headersStackView.snp.bottom).inset(infoFieldsInsets.top)
+            $0.leading.equalTo(scrollContentView).inset(infoFieldsInsets.left)
+            $0.trailing.equalTo(scrollContentView).inset(infoFieldsInsets.right)
         }
         
         forgotPasswordButton.snp.makeConstraints {
-            $0.top.equalTo(infoFieldsStackView.snp.bottom).inset(-30)
-            $0.leading.equalTo(scrollContentView).inset(30)
+            $0.top.equalTo(infoFieldsStackView.snp.bottom).inset(secondaryButtonsInsets.top)
+            $0.leading.equalTo(scrollContentView).inset(secondaryButtonsInsets.left)
         }
         
         dontHaveAccountButton.snp.makeConstraints {
-            $0.bottom.equalTo(loginButton.snp.top).inset(-30)
+            $0.bottom.equalTo(loginButton.snp.top).inset(secondaryButtonsInsets.bottom)
             $0.centerX.equalToSuperview()
         }
         
@@ -345,6 +355,12 @@ extension LoginBottomSheetViewController {
         
         struct HeadersStackViewConsts {
             let spacing: CGFloat = 8
+            let insets = UIEdgeInsets(
+                top: 50,
+                left: 32,
+                bottom: 32,
+                right: -32
+            )
         }
         
         struct LoginLabelConsts {
@@ -360,6 +376,12 @@ extension LoginBottomSheetViewController {
         }
         
         struct InfoConsts {
+            let insets = UIEdgeInsets(
+                top: -60,
+                left: 32,
+                bottom: 32,
+                right: -32
+            )
             let textFieldBackgroundColor = UIColor(
                 red: 0.975,
                 green: 0.98,
@@ -367,7 +389,7 @@ extension LoginBottomSheetViewController {
                 alpha: 1
             )
             let textFieldPadding: CGFloat = 20
-            
+            let textFieldHeight: CGFloat = 50
             let commonSpacing: CGFloat = 30
             let spacingBetweenSubStackviews: CGFloat = 10
             let color: UIColor = .systemGray2
@@ -391,6 +413,13 @@ extension LoginBottomSheetViewController {
         
         struct SecondaryButtons {
             let forgotPassLabel = "Forgot Password?"
+            let secondaryButtonsInsets = UIEdgeInsets(
+                top: -32,
+                left: 32,
+                bottom: -32,
+                right: 32
+            )
+            
             let dontHaveAccLabel = "I don’t have account"
             let font = UIFont(
                 name: "Karla-Bold",
