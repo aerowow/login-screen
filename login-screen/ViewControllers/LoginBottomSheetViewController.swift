@@ -131,7 +131,6 @@ final class LoginBottomSheetViewController: UIViewController {
         txtField.textColor = .label
         txtField.isSecureTextEntry = true
         txtField.autocapitalizationType = .none
-        txtField.clearButtonMode = .whileEditing
         
         return txtField
     }()
@@ -213,6 +212,7 @@ final class LoginBottomSheetViewController: UIViewController {
         setupConstraints()
         updatePreferredContentSize()
         setupGestureRecognizer()
+        setupTextField()
     }
     
     // MARK: - Methods
@@ -328,6 +328,7 @@ final class LoginBottomSheetViewController: UIViewController {
                 )
                 self.nameStackView.isHidden = false
                 self.nameStackView.alpha = 1
+                self.forgotPasswordButton.alpha = 0
                 self.forgotPasswordButton.isHidden = true
             }
         } else {
@@ -344,6 +345,7 @@ final class LoginBottomSheetViewController: UIViewController {
                 )
                 self.nameStackView.isHidden = true
                 self.nameStackView.alpha = 0
+                self.forgotPasswordButton.alpha = 1
                 self.forgotPasswordButton.isHidden = false
             }
         }
@@ -354,9 +356,55 @@ final class LoginBottomSheetViewController: UIViewController {
         scrollView.endEditing(true)
     }
     
+    @objc
+    private func togglePasswordVisibility(_ sender: UIButton) {
+        UIView.transition(
+            with: sender,
+            duration: 0.3,
+            options: .transitionCrossDissolve) {
+            sender.isSelected = !sender.isSelected
+        }
+        passwordTextField.isSecureTextEntry = !passwordTextField.isSecureTextEntry
+    }
+    
     private func setupGestureRecognizer() {
-        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        let tapGestureRecognizer = UITapGestureRecognizer(
+            target: self,
+            action: #selector(dismissKeyboard)
+        )
         scrollContentView.addGestureRecognizer(tapGestureRecognizer)
+    }
+    
+    private func setupTextField() {
+        let textFields = [nameTextField, emailTextField, passwordTextField]
+        let showHideButton = UIButton(type: .custom)
+        let buttonSize = consts.secondaryButtons.showHideButtonSize
+        let containerView = UIView(frame: CGRect(
+            x: 0,
+            y: 0,
+            width: buttonSize + 16,
+            height: buttonSize)
+        )
+        
+        for textField in textFields {
+            textField.layer.borderWidth = consts.infoConsts.textFieldBorderWidth
+            textField.layer.borderColor = UIColor.lightGray.cgColor
+            textField.layer.cornerRadius = consts.infoConsts.textFieldCornerRadius
+        }
+        
+        showHideButton.setImage(consts.icons.eyeOff, for: .normal)
+        showHideButton.setImage(consts.icons.eye, for: .selected)
+        showHideButton.frame = consts.secondaryButtons.showHideButtonFrame
+        showHideButton.imageView?.contentMode = .scaleAspectFit
+        showHideButton.addTarget(
+            self,
+            action: #selector(togglePasswordVisibility),
+            for: .touchUpInside
+        )
+        
+        containerView.addSubview(showHideButton)
+        passwordTextField.rightView = containerView
+        passwordTextField.rightViewMode = .always
     }
     
     private func updatePreferredContentSize() {
@@ -403,7 +451,7 @@ extension LoginBottomSheetViewController {
         let secondaryButtons = SecondaryButtons()
         let loginButton = LoginButtonConsts()
         let alert = Alert()
-        
+        let icons = Icons()
         
         let backgroundColor: UIColor = .systemBackground
         
@@ -439,15 +487,11 @@ extension LoginBottomSheetViewController {
                 bottom: 32,
                 right: 32
             )
-//            let textFieldBackgroundColor = UIColor(
-//                red: 0.975,
-//                green: 0.98,
-//                blue: 0.985,
-//                alpha: 1
-//            )
             let textFieldBackgroundColor: UIColor = .systemGray6
             let textFieldPadding: CGFloat = 20
             let textFieldHeight: CGFloat = 50
+            let textFieldBorderWidth: CGFloat = 0.5
+            let textFieldCornerRadius: CGFloat = 5.0
             let commonSpacing: CGFloat = 30
             let spacingBetweenSubStackviews: CGFloat = 10
             let color: UIColor = .systemGray2
@@ -471,15 +515,16 @@ extension LoginBottomSheetViewController {
         
         struct SecondaryButtons {
             let forgotPassLabel = "Forgot Password?"
+            let dontHaveAccLabel = "I don’t have account"
+            let haveAccLabel = "I have an account"
+            let showHideButtonSize = 20
+            let showHideButtonFrame = CGRect(x: 0, y: 0, width: 24, height: 24)
             let secondaryButtonsInsets = UIEdgeInsets(
                 top: -32,
                 left: 32,
                 bottom: -32,
                 right: 32
             )
-            
-            let dontHaveAccLabel = "I don’t have account"
-            let haveAccLabel = "I have an account"
             let font = UIFont(
                 name: "Karla-Bold",
                 size: 16
@@ -502,8 +547,13 @@ extension LoginBottomSheetViewController {
         
         struct Alert {
             let title = "Forgot Password?"
-            let message = "Here's your password: "
+            let message = "We send you new pass in mail."
             let buttonTitle = "OK"
+        }
+        
+        struct Icons {
+            let eye = UIImage(named: "eye")
+            let eyeOff = UIImage(named: "eye-off")
         }
     }
 }
