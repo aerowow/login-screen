@@ -27,7 +27,7 @@ final class LoginBottomSheetViewController: UIViewController {
     
     private lazy var loginLabel: UILabel = {
         let label = UILabel()
-        label.text = consts.loginLabel.text
+        label.text = consts.loginLabel.textLogin
         label.textColor = consts.loginLabel.textColor
         label.font = consts.loginLabel.font
         
@@ -36,7 +36,7 @@ final class LoginBottomSheetViewController: UIViewController {
     
     private lazy var subtitleLabel: UILabel = {
        let label = UILabel()
-        label.text = consts.subtitleLabel.text
+        label.text = consts.subtitleLabel.textSign
         label.textColor = consts.subtitleLabel.textColor
         label.font = consts.subtitleLabel.font
         
@@ -170,7 +170,7 @@ final class LoginBottomSheetViewController: UIViewController {
         let button = UIButton(type: .system)
         button.backgroundColor = consts.loginButton.backgroundColor
         button.titleLabel?.font = consts.loginButton.fontKarlaBold
-        button.setTitle(consts.loginButton.text, for: .normal)
+        button.setTitle(consts.loginButton.textLogin, for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.addTarget(
             self,
@@ -307,22 +307,26 @@ final class LoginBottomSheetViewController: UIViewController {
         
         if !hasAccount {
             UIView.animate(withDuration: 0.35) {
-                self.loginLabel.text = "Register"
-                self.subtitleLabel.text = "Create your account"
-                self.dontHaveAccountButton.setTitle(
-                    "I have an account",
+                self.loginLabel.text = self.consts.loginLabel.textRegister
+                self.subtitleLabel.text = self.consts.subtitleLabel.textCreate
+                self.loginButton.setTitle(
+                    self.consts.loginButton.textRegister,
                     for: .normal
                 )
-                self.loginButton.setTitle("Register", for: .normal)
+                self.dontHaveAccountButton.setTitle(
+                    self.consts.secondaryButtons.haveAccLabel,
+                    for: .normal
+                )
                 self.nameStackView.isHidden = false
+                self.nameStackView.alpha = 1
                 self.forgotPasswordButton.isHidden = true
             }
         } else {
             UIView.animate(withDuration: 0.35) {
-                self.loginLabel.text = "Login"
-                self.subtitleLabel.text = "Sign to your account"
+                self.loginLabel.text = self.consts.loginLabel.textLogin
+                self.subtitleLabel.text = self.consts.subtitleLabel.textSign
                 self.loginButton.setTitle(
-                    self.consts.loginButton.text,
+                    self.consts.loginButton.textLogin,
                     for: .normal
                 )
                 self.dontHaveAccountButton.setTitle(
@@ -330,6 +334,7 @@ final class LoginBottomSheetViewController: UIViewController {
                     for: .normal
                 )
                 self.nameStackView.isHidden = true
+                self.nameStackView.alpha = 0
                 self.forgotPasswordButton.isHidden = false
             }
         }
@@ -403,13 +408,16 @@ extension LoginBottomSheetViewController {
         }
         
         struct LoginLabelConsts {
-            let text = "Login"
+            let textLogin = "Login"
+            let textRegister = "Register"
             let textColor: UIColor = .label
             let font = UIFont(name: "PlayfairDisplay-Bold", size: 24)
         }
         
         struct SubtitleLabelConsts {
-            let text = "Sign to your account"
+            let textSign = "Sign to your account"
+            let textCreate = "Create your account"
+            
             let textColor: UIColor = .systemGray
             let font = UIFont(name: "Karla-Regular", size: 16)
         }
@@ -419,14 +427,15 @@ extension LoginBottomSheetViewController {
                 top: -60,
                 left: 32,
                 bottom: 32,
-                right: -32
+                right: 32
             )
-            let textFieldBackgroundColor = UIColor(
-                red: 0.975,
-                green: 0.98,
-                blue: 0.985,
-                alpha: 1
-            )
+//            let textFieldBackgroundColor = UIColor(
+//                red: 0.975,
+//                green: 0.98,
+//                blue: 0.985,
+//                alpha: 1
+//            )
+            let textFieldBackgroundColor: UIColor = .systemGray6
             let textFieldPadding: CGFloat = 20
             let textFieldHeight: CGFloat = 50
             let commonSpacing: CGFloat = 30
@@ -460,6 +469,7 @@ extension LoginBottomSheetViewController {
             )
             
             let dontHaveAccLabel = "I don’t have account"
+            let haveAccLabel = "I have an account"
             let font = UIFont(
                 name: "Karla-Bold",
                 size: 16
@@ -473,7 +483,8 @@ extension LoginBottomSheetViewController {
                 blue: 0.29,
                 alpha: 1
             )
-            let text = "Login"
+            let textLogin = "Login"
+            let textRegister = "Register"
             let fontKarlaBold = UIFont(name: "Karla-Bold", size: 16)
             let fontKarlaExtraBold = UIFont(name: "Karla-ExtraBold", size: 16)
             let height: CGFloat = 75.0
