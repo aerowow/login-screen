@@ -297,8 +297,17 @@ final class LoginBottomSheetViewController: UIViewController {
     
     @objc
     private func showHint() {
-        let alert = UIAlertController()
-        print("kek")
+        let alert = UIAlertController(
+            title: consts.alert.title,
+            message: consts.alert.message,
+            preferredStyle: .alert)
+        
+        let okAction = UIAlertAction(
+            title: consts.alert.buttonTitle,
+            style: .default)
+        
+        alert.addAction(okAction)
+        self.present(alert, animated: true)
     }
     
     @objc
@@ -384,15 +393,16 @@ final class LoginBottomSheetViewController: UIViewController {
 // MARK: - Constants extension
 extension LoginBottomSheetViewController {
     struct Constants {
-        let loginButton = LoginButtonConsts()
-        let headersStackViewConsts = HeadersStackViewConsts()
         let loginLabel = LoginLabelConsts()
         let subtitleLabel = SubtitleLabelConsts()
         let nameLabel = NameLabelConsts()
         let emailLabel = EmailLabelConsts()
         let passwordLabel = PasswordLabelConsts()
+        let headersStackViewConsts = HeadersStackViewConsts()
         let infoConsts = InfoConsts()
         let secondaryButtons = SecondaryButtons()
+        let loginButton = LoginButtonConsts()
+        let alert = Alert()
         
         
         let backgroundColor: UIColor = .systemBackground
@@ -488,6 +498,12 @@ extension LoginBottomSheetViewController {
             let fontKarlaBold = UIFont(name: "Karla-Bold", size: 16)
             let fontKarlaExtraBold = UIFont(name: "Karla-ExtraBold", size: 16)
             let height: CGFloat = 75.0
+        }
+        
+        struct Alert {
+            let title = "Forgot Password?"
+            let message = "Here's your password: "
+            let buttonTitle = "OK"
         }
     }
 }
