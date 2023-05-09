@@ -1,0 +1,28 @@
+PODS:
+  - BottomSheet (2.0.2)
+  - SnapKit (5.0.1)
+
+DEPENDENCIES:
+  - BottomSheet (from `https://github.com/joomcode/BottomSheet`)
+  - SnapKit (~> 5.0.0)
+
+SPEC REPOS:
+  https://github.com/CocoaPods/Specs.git:
+    - SnapKit
+
+EXTERNAL SOURCES:
+  BottomSheet:
+    :git: https://github.com/joomcode/BottomSheet
+
+CHECKOUT OPTIONS:
+  BottomSheet:
+    :commit: b847e09e40a833593b29475f2f1c94e8260befe2
+    :git: https://github.com/joomcode/BottomSheet
+
+SPEC CHECKSUMS:
+  BottomSheet: bd3d79027e5b50b98ca870f4c62a0f4d85de9656
+  SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
+
+PODFILE CHECKSUM: e8ef3ed6d55610d9c77638b456c7bfcdf7248d24
+
+COCOAPODS: 1.12.0

@@ -29,11 +29,11 @@
 		B450213429F51A86007E25C2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B450213729F51A86007E25C2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B450213929F51A86007E25C2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		B450214429F52CE4007E25C2 /* Karla-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Karla-Bold.ttf"; path = "../../../../../../../Downloads/Karla/static/Karla-Bold.ttf"; sourceTree = "<group>"; };
-		B450214529F52CE4007E25C2 /* Karla-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Karla-Regular.ttf"; path = "../../../../../../../Downloads/Karla/static/Karla-Regular.ttf"; sourceTree = "<group>"; };
-		B450214929F52D2F007E25C2 /* PlayfairDisplay-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "PlayfairDisplay-Regular.ttf"; path = "../../../../../../../Downloads/Playfair_Display/static/PlayfairDisplay-Regular.ttf"; sourceTree = "<group>"; };
-		B450214A29F52D2F007E25C2 /* PlayfairDisplay-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "PlayfairDisplay-Bold.ttf"; path = "../../../../../../../Downloads/Playfair_Display/static/PlayfairDisplay-Bold.ttf"; sourceTree = "<group>"; };
-		B450214D29F53793007E25C2 /* Karla-ExtraBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Karla-ExtraBold.ttf"; path = "../../../../../../../Downloads/Karla/static/Karla-ExtraBold.ttf"; sourceTree = "<group>"; };
+		B450214429F52CE4007E25C2 /* Karla-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Karla-Bold.ttf"; sourceTree = "<group>"; };
+		B450214529F52CE4007E25C2 /* Karla-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Karla-Regular.ttf"; sourceTree = "<group>"; };
+		B450214929F52D2F007E25C2 /* PlayfairDisplay-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PlayfairDisplay-Regular.ttf"; sourceTree = "<group>"; };
+		B450214A29F52D2F007E25C2 /* PlayfairDisplay-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PlayfairDisplay-Bold.ttf"; sourceTree = "<group>"; };
+		B450214D29F53793007E25C2 /* Karla-ExtraBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Karla-ExtraBold.ttf"; sourceTree = "<group>"; };
 		B450214F29F56414007E25C2 /* LoginBottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginBottomSheetViewController.swift; sourceTree = "<group>"; };
 		C7933346B53213E17992F049 /* Pods-login-screen.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-login-screen.debug.xcconfig"; path = "Target Support Files/Pods-login-screen/Pods-login-screen.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
