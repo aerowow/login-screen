@@ -213,9 +213,35 @@ final class LoginBottomSheetViewController: UIViewController {
         updatePreferredContentSize()
         setupGestureRecognizer()
         setupTextField()
+        setupNotificationCenter()
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
     
     // MARK: - Methods
+    
+    private func setupNotificationCenter() {
+        NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardNotification(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardNotification(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    @objc
+    func handleKeyboardNotification(notification: NSNotification) {
+        if let userInfo = notification.userInfo {
+            // Get the keyboard frame
+            guard let keyboardFrame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else { return }
+
+            // Check whether the keyboard is being shown or hidden
+            let isKeyboardShowing = notification.name == UIResponder.keyboardWillShowNotification
+
+            // Adjust the bottom content inset of the scroll view by the height of the keyboard
+            var contentInset: UIEdgeInsets = self.scrollView.contentInset
+            contentInset.bottom = isKeyboardShowing ? keyboardFrame.height : 0
+            scrollView.contentInset = contentInset
+        }
+    }
     
     private func addSubviews() {
         view.addSubview(scrollView)
